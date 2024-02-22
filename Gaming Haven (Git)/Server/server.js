@@ -25,6 +25,7 @@ const connect= async ()=> {try{
 app.use(sessionMiddleware);
 app.use(express.json())
 app.use(cookieParser())
+app.use(cors());
 app.use(cors({origin:"https://gaming-haven-frontend.vercel.app",credentials:true,methods:["POST","GET"]}))
 app.use("/auth",authRoute)
 app.use("/users",userRoute)
