@@ -41,7 +41,10 @@ app.use((err,req,res,next)=>{
 
   return res.status(errorStatus).send(errorMessage);
 })
-
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://gaming-haven-frontend.vercel.app');
+  next();
+});
 
 app.listen(5000,()=>{
     connect()
