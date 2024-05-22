@@ -46,16 +46,14 @@ export default function Checkoutorder() {
   const [isDataSaved, setIsDataSaved] = React.useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
   
-  const steps = ['Shipping address', 'Payment details', 'Review your order'];
+  const steps = ['Shipping address & Payment Details',  'Review your order'];
 
 function getStepContent(step) {
   
   switch (step) {
     case 0:
-      return <OrderAddressForm/>;
+      return < OrderAddressForm/>;
     case 1:
-      return <PaymentForm/>;
-    case 2:
       return <Review/>;
     default:
       throw new Error('Unknown step');
@@ -80,6 +78,7 @@ function getStepContent(step) {
       <CssBaseline />
       
        
+      
         
       
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
@@ -100,7 +99,7 @@ function getStepContent(step) {
                 Thank you for your order.
               </Typography>
               <Typography variant="subtitle1" fontFamily="monospace">
-              
+                
                 Your order number is #2001539. We have emailed your order
                 confirmation, and will send you an update when your order has
                 shipped.

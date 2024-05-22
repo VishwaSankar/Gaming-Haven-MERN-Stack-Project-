@@ -32,6 +32,7 @@ export default function DashLeft() {
   return (
     <Box flex={3} >
        <Container>
+        
       <List
         sx={{
           width: "100%",
@@ -44,7 +45,7 @@ export default function DashLeft() {
         component="nav"
         aria-labelledby="nested-list-subheader"
       >
-         <Paper  >
+       
           
         <ListItemButton >
           <ListItemIcon>
@@ -71,7 +72,7 @@ export default function DashLeft() {
           <ListItemIcon>
             <BookIcon />
           </ListItemIcon>
-          <Link to={"/library"}  style={{textDecoration:"none" , color: 'white'}} >
+          <Link to={"/dblibrary"}  style={{textDecoration:"none" , color: 'white'}} >
           <ListItemText  primary="Your Library" />
           </Link>
         </ListItemButton>
@@ -86,15 +87,15 @@ export default function DashLeft() {
         </ListItemButton>
         <Divider color="gray" />
         <ListItemButton>
-          <ListItemIcon>
-            <InfoIcon />
-          </ListItemIcon>
-          <Link to={"/library"}  style={{textDecoration:"none" , color: 'white'}} >
+            {/* <ListItemIcon>
+              <InfoIcon />
+            </ListItemIcon> */}
+          {/* <Link to={"/library"}  style={{textDecoration:"none" , color: 'white'}} >
           <ListItemText primary="Passwords & security" />
-          </Link>
+          </Link> */}
         </ListItemButton>
         
-        </Paper>
+      
       </List>
     </Container>
     </Box>

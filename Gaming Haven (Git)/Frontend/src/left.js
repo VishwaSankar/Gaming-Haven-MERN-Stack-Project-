@@ -51,7 +51,7 @@ export default function NestedList() {
             <ShopIcon />
           </ListItemIcon>
           <Link to={"/"}  style={{textDecoration:"none" , color: 'white'}} >
-          <ListItemText primary="Your Store" />
+          <ListItemText primary="Your Store"  />
           </Link>
         </ListItemButton>
         <Divider color="gray"/>
@@ -128,7 +128,10 @@ export default function NestedList() {
           <ListItemIcon>
             <SellIcon />
           </ListItemIcon>
-          <ListItemText primary="Sell your games" />
+          <Link to={"/cart"} state={{}}  style={{textDecoration:"none" , color: 'white'}} >
+
+          <ListItemText primary="Your Cart" />
+          </Link>
         </ListItemButton>
         <Divider color="gray"/>
         {/* <ListItemButton>
@@ -137,14 +140,14 @@ export default function NestedList() {
           </ListItemIcon>
           <ListItemText primary="Consoles" />
         </ListItemButton> */}
-        <ListItemButton>
+        {/* <ListItemButton>
           <ListItemIcon>
             <BookIcon />
           </ListItemIcon>
           <Link to={"/library"}  style={{textDecoration:"none" , color: 'white'}} >
           <ListItemText  primary="Your Library" />
           </Link>
-        </ListItemButton>
+        </ListItemButton> */}
         <Divider color="gray"/>
         <ListItemButton>
           <ListItemIcon>

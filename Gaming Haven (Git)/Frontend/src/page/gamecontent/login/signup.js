@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -6,22 +5,18 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import SportsEsportsSharpIcon from "@mui/icons-material/SportsEsportsSharp";
-import { useState } from "react";
-import axios from "axios";
-import { LinkOff } from "@mui/icons-material";
-
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {useRef} from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import upload from "../../../utils/upload";
 import newRequest from "../../../utils/newRequest";
+import CircularProgress from '@mui/material/CircularProgress';
+import Backdrop from '@mui/material/Backdrop'; // Import Backdrop
+
 function Copyright(props) {
     return (
       <Typography
@@ -38,11 +33,11 @@ function Copyright(props) {
         {"."}
       </Typography>
     );
-  }
+}
 
 const Signup = () => {
-    const[file,setfile]=useState(null)
-    const[user,setuser]=useState({
+    const [file, setFile] = React.useState(null);
+    const [user, setUser] = React.useState({
       username:"",
       email:"",
       password:"",
@@ -50,36 +45,42 @@ const Signup = () => {
       isSeller:false,
       img:"",
       desc:""
-    })
+    });
+    const [loading, setLoading] = React.useState(false);
 
-    const navigate=useNavigate()
-    const handlechange=(e)=>{
-      setuser((prev)=>{
-        return{...prev,[e.target.name]:e.target.value}
-      })
-    }
-    const handleSeller=(e)=>{
-      setuser((prev)=>{
-        return{...prev,isSeller:e.target.checked}
-      })
-    }
-    const handleSubmit=async(e)=>{
-      e.preventDefault()
-      const url=await upload(file)
-     try{
-      await newRequest.post("/auth/register",{
-        ...user,
-       img:url
-      })
-      alert("Account Created Successfully. Now Login to Proceed!")
-      navigate("/login")
-     }catch(err){
-      console.log(err);
-     }
-    }
-    
+    const navigate = useNavigate();
+
+    const handleChange = (e) => {
+      setUser((prev) => {
+        return {...prev, [e.target.name]: e.target.value};
+      });
+    };
+
+    const handleSeller = (e) => {
+      setUser((prev) => {
+        return {...prev, isSeller: e.target.checked};
+      });
+    };
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setLoading(true);
+      const url = await upload(file);
+      try {
+        await newRequest.post("/auth/register", {
+          ...user,
+          img: url
+        });
+        alert("Account Created Successfully. Now Login to Proceed!");
+        navigate("/login");
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     return (
-    
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -96,88 +97,80 @@ const Signup = () => {
             <Typography component="h1" variant="h5">
               Create a new Account
             </Typography>
-            <Box component="form"  onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
               <TextField
                 name="username"
                 margin="normal"
-                
                 fullWidth
-                placeholder="username"
+                placeholder="Username"
                 autoFocus
-                onChange={handlechange}
+                onChange={handleChange}
               />
               <TextField
                 name="email"
                 margin="normal"
-                
-                placeholder="email"
                 fullWidth
-                autoComplete="current-password"
-                onChange={handlechange}
-
-
-              />
-                 <TextField
-                 name="password"
-                margin="normal"
-                
-                placeholder="password"
-                fullWidth
-                autoComplete="current-password"
-                onChange={handlechange}
-
+                placeholder="Email"
+                autoComplete="email"
+                onChange={handleChange}
               />
               <TextField
-
+                name="password"
+                margin="normal"
+                fullWidth
+                placeholder="Password"
+                type="password"
+                autoComplete="new-password"
+                onChange={handleChange}
+              />
+              <TextField
                 name="country"
                 margin="normal"
-                
-                placeholder="country"
-                onChange={handlechange}
                 fullWidth
+                placeholder="Country"
+                onChange={handleChange}
               />
               <TextField
                 name="img"
                 margin="normal"
                 type="file"
-                onChange={e=>setfile(e.target.files[0])}
-                placeholder="Profile picture"
                 fullWidth
+                onChange={e => setFile(e.target.files[0])}
+                placeholder="Profile Picture"
               />
-                <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
+              <FormControlLabel
+                control={<Checkbox value="isSeller" color="primary" />}
                 label="Are you a Seller?"
                 onChange={handleSeller}
               />
-                
-                <TextField
+              <TextField
                 name="phone"
                 margin="normal"
-                placeholder="Phone number"
                 fullWidth
-                onChange={handlechange}
-
+                placeholder="Phone Number"
+                onChange={handleChange}
               />
               <TextField
                 name="desc"
                 margin="normal"
-                placeholder="about your self..."
-                cols="30"
-                rows="10"
                 fullWidth
+                placeholder="About Yourself..."
+                multiline
+                rows={4}
+                onChange={handleChange}
               />
-              {/* <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              /> */}
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                disabled={loading} // Disable button when loading
               >
                 Sign Up
               </Button>
+              <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}> {/* Show backdrop when loading */}
+                <CircularProgress color="inherit" />
+              </Backdrop>
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
@@ -185,7 +178,7 @@ const Signup = () => {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link to="/login" >
+                  <Link to="/login">
                     {"Already have an account"}
                   </Link>
                 </Grid>
@@ -194,8 +187,7 @@ const Signup = () => {
           </Box>
           <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>
-     
-      );
+    );
 }
 
-export default Signup
+export default Signup;

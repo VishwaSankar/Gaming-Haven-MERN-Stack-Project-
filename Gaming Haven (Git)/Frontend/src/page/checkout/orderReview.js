@@ -6,16 +6,11 @@ import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import newRequest from '../../utils/newRequest';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Divider } from '@mui/material';
 
 
-const payments = [
-  { name: 'Card type', detail: 'Visa' },
-  { name: 'Card holder', detail: 'Mr John Smith' },
-  { name: 'Card number', detail: 'xxxx-xxxx-xxxx-1234' },
-  { name: 'Expiry date', detail: '04/2024' },
-];
+
 
 export default function Review(props) {
   
@@ -34,9 +29,12 @@ export default function Review(props) {
   });
   const queryClient=useQueryClient()
  
+    
   
 
-  //const filteredOrders = data.filter((order) => order.gamedetails.gamename === gamename);
+
+
+
   const total = data.reduce((accumulator, order) => accumulator + parseFloat(order.price), 0);
   return (
     <React.Fragment>
@@ -44,11 +42,12 @@ export default function Review(props) {
         Order summary
       </Typography>
       {data.map((order, index) => (
+        
         <List disablePadding key={index}>
           <ListItem key={order.name} sx={{ py: 1, px: 0 }}>
-            <ListItemText primary={order.name} secondary={order.platform} />
+            <ListItemText   primary={order.name} secondary={order.platform} />
             
-            <Typography variant="body2"> Rs. {order.price} /-</Typography>
+            <Typography fontFamily="monospace" variant="body2" fontSize="17px"> Rs. {order.price} /-</Typography>
           </ListItem>
           <Divider />
       
@@ -56,8 +55,16 @@ export default function Review(props) {
       
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary="Total amount to be paid" secondary="including GST"/>
-          Rs. {total} /-
+         <Typography fontFamily="monospace" fontSize="20px">Rs. {total} /-</Typography> 
         </ListItem>
+        <Link to={'/pay'} state={{from:'checkout-review', amount:total }}>
+              <button>Make Payment</button>
+              </Link>
+      
+      
+      
+      
+      
       <Grid container spacing={2}>
       {/* {data.map((order, index) => (
 
@@ -74,21 +81,18 @@ export default function Review(props) {
           ))} */}
         
         <Grid item container direction="column" xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          {/* <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             Payment details
-          </Typography>
+          </Typography> */}
           <Grid container>
-            {payments.map((payment) => (
-              <React.Fragment key={payment.name}>
-                <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.name}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.detail}</Typography>
-                </Grid>
-              </React.Fragment>
-            ))}
-          </Grid>
+      {/* <Grid item xs={12} sm={6}>
+       
+        <Typography gutterBottom>Card Name: {order?.paymentDetails?.cardName} </Typography>
+        <Typography gutterBottom>Card Number:{order?.paymentDetails?.cardNumber}</Typography>
+        <Typography gutterBottom>Expire Date: {order?.paymentDetails?.expirationDate}</Typography>
+        <Typography gutterBottom>CVV: {order?.paymentDetails?.cvv}</Typography>
+      </Grid> */}
+    </Grid>
         </Grid>
       </Grid>
     </React.Fragment>

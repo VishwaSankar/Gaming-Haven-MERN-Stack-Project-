@@ -1,13 +1,13 @@
-import * as React from 'react';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import newRequest from '../../utils/newRequest';
-import { useLocation } from 'react-router-dom';
-import { Button } from '@mui/material';
+import * as React from "react";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import newRequest from "../../utils/newRequest";
+import { useLocation } from "react-router-dom";
+import { Button } from "@mui/material";
 
 export default function PaymentForm() {
   const { isLoading, error, data } = useQuery({
@@ -21,34 +21,28 @@ export default function PaymentForm() {
       }
     },
   });
-  
-  const queryClient=useQueryClient()
-  
-  
+
+  const queryClient = useQueryClient();
+
   const mutation = useMutation({
-  mutationFn: (handleship) => {
-      return newRequest.post('/order/neworder', handleship)
+    mutationFn: (handleship) => {
+      return newRequest.post("/order/neworder", handleship);
     },
-    onSuccess:()=>{
-     
-     
-      queryClient.invalidateQueries(["order"])
-       
-    }
-
-  })
-
+    onSuccess: () => {
+      queryClient.invalidateQueries(["order"]);
+    },
+  });
 
   const handleship = (e) => {
     e.preventDefault();
-    
+
     // Gather form data
     const formData = {
       paymentDetails: {
-        cardName: document.getElementById('cardName').value, // Get this value from the TextField
-        cardNumber: document.getElementById('cardNumber').value, // Get this value from the TextField
-        expirationDate: document.getElementById('expDate').value, // Get this value from the TextField
-        cvv: document.getElementById('cvv').value, // Get this value from the TextField
+        cardName:e.target.cardName.value,
+        cardNumber: e.target.cardNumber.value,
+        expirationDate:e.target.expDate.value,
+        cvv:e.target.cvv.value,
       },
     };
 
@@ -56,19 +50,18 @@ export default function PaymentForm() {
     mutation.mutate(formData);
   };
 
-     
-  
- 
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
         Payment method
       </Typography>
+      <form onSubmit={handleship}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <TextField
             required
             id="cardName"
+            name="cardName"
             label="Name on card"
             fullWidth
             autoComplete="cc-name"
@@ -79,6 +72,7 @@ export default function PaymentForm() {
           <TextField
             required
             id="cardNumber"
+            name="cardNumber"
             label="Card number"
             fullWidth
             autoComplete="cc-number"
@@ -89,6 +83,7 @@ export default function PaymentForm() {
           <TextField
             required
             id="expDate"
+            name="expDate"
             label="Expiry date"
             fullWidth
             autoComplete="cc-exp"
@@ -98,6 +93,7 @@ export default function PaymentForm() {
         <Grid item xs={12} md={6}>
           <TextField
             required
+            name="cvv"
             id="cvv"
             label="CVV"
             helperText="Last three digits on signature strip"
@@ -113,9 +109,22 @@ export default function PaymentForm() {
           />
         </Grid>
       </Grid>
-      <Button variant="contained" color="primary" onClick={handleship}>
+      <Button variant="contained" color="primary" type="submit">
         Save
       </Button>
+      
+
+
+
+
+
+      </form>
+
+
+
+      
     </React.Fragment>
+
+   
   );
 }

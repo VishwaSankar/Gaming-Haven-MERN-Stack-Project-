@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import newRequest from '../../utils/newRequest';
 import { useLocation } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 
 export default function AddressForm() {
   const location = useLocation();
@@ -37,7 +37,7 @@ export default function AddressForm() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["order"]);
-    },
+    },  
   });
 
   const handleship = (e) => {
@@ -66,7 +66,12 @@ export default function AddressForm() {
           state: e.target.state.value,
           zipCode: parseInt(e.target.zipCode.value),
           country: e.target.country.value,
-        },
+        },  paymentDetails: {
+          cardName:e.target.cardName.value,
+          cardNumber: e.target.cardNumber.value,
+          expirationDate:e.target.expDate.value,
+          cvv:e.target.cvv.value,
+        }
       };
   
       // Call the mutation function to send data to the server
@@ -80,108 +85,170 @@ export default function AddressForm() {
   
 
   return (
+    <>
+    <Box>
     <React.Fragment>
-      <Typography variant="h6" gutterBottom>
+
+    <Typography variant="h5" fontFamily="monospace" gutterBottom textAlign="center" paddingTop="30px" paddingBottom="20px">
         Shipping address
+        {/* <Divider color="gray"  variant="middle"/> */}
       </Typography>
+      
       <form onSubmit={handleship}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="Firstname"
-              name="Firstname"
-              label="Firstname"
-              fullWidth
-              autoComplete="given-name"
-              variant="standard"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="Lastname"
-              name="Lastname"
-              label="Lastname"
-              fullWidth
-              autoComplete="family-name"
-              variant="standard"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              id="Address"
-              name="Address"
-              label="Address"
-              fullWidth
-              autoComplete="shipping address-line1"
-              variant="standard"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="city"
-              name="city"
-              label="City"
-              fullWidth
-              autoComplete="shipping address-level2"
-              variant="standard"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              id="state"
-              name="state"
-              label="State/Province/Region"
-              fullWidth
-              variant="standard"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="zipCode"
-              name="zipCode"
-              label="Zip / Postal code"
-              fullWidth
-              autoComplete="shipping postal-code"
-              variant="standard"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="country"
-              name="country"
-              label="Country"
-              fullWidth
-              autoComplete="shipping country"
-              variant="standard"
-            />
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="Firstname"
+            name="Firstname"
+            label="Firstname"
+            fullWidth
+            autoComplete="given-name"
+            variant="standard"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="Lastname"
+            name="Lastname"
+            label="Lastname"
+            fullWidth
+            autoComplete="family-name"
+            variant="standard"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            required
+            id="Address"
+            name="Address"
+            label="Address"
+            fullWidth
+            autoComplete="shipping address-line1"
+            variant="standard"
+          />
+        </Grid>
+      
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="city"
+            name="city"
+            label="City"
+            fullWidth
+            autoComplete="shipping address-level2"
+            variant="standard"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            id="state"
+            name="state"
+            label="State/Province/Region"
+            fullWidth
+            variant="standard"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="zipCode"
+            name="zipCode"
+            label="Zip / Postal code"
+            fullWidth
+            autoComplete="shipping postal-code"
+            variant="standard"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="country"
+            name="country"
+            label="Country"
+            fullWidth
+            autoComplete="shipping country"
+            variant="standard"
+          />
+        </Grid>
+        {/* <Grid item xs={12}>
+          <FormControlLabel
+            control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
+            label="Use this address for payment details"
+          />
+        </Grid> */}
+  </Grid>
+       
+        <Typography variant="h5" fontFamily="monospace" gutterBottom textAlign="center" paddingTop="50px">
+        Payment method
+      </Typography>
+      {/* <Divider color="gray"  variant="middle"/> */}
+     
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
+          <TextField
+            required
+            id="cardName"
+            name="cardName"
+            label="Name on card"
+            fullWidth
+            autoComplete="cc-name"
+            variant="standard"
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <TextField
+            required
+            id="cardNumber"
+            name="cardNumber"
+            label="Card number"
+            fullWidth
+            autoComplete="cc-number"
+            variant="standard"
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <TextField
+            required
+            id="expDate"
+            name="expDate"
+            label="Expiry date"
+            fullWidth
+            autoComplete="cc-exp"
+            variant="standard"
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <TextField
+            required
+            name="cvv"
+            id="cvv"
+            label="CVV"
+            helperText="Last three digits on signature strip"
+            fullWidth
+            autoComplete="cc-csc"
+            variant="standard"
+          />
+        </Grid><br></br>
+        <br></br>
+
+        {/* <Grid item xs={12}>
+          <FormControlLabel
+            control={<Checkbox color="secondary" name="saveCard" value="yes" />}
+            label="Remember credit card details for next time"
+          />
+        </Grid> */}
+      </Grid>
+      <Grid paddingTop="30px" item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button variant='outlined' color='error' type="submit">Click me to save </Button>
           </Grid>
           
-          <div name="showing cart names">
-             {/* Loop over cart items and display them */}
-          {cartData && cartData.map((cartItem) => (
-            <React.Fragment key={cartItem._id}>
-              {/* <Typography variant="h6" gutterBottom>
-                {cartItem.name}
-              </Typography> */}
-              {/* Additional details for each cart item can be displayed here */}
-            </React.Fragment>
-          ))}
-          </div>
-         
-
-          <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button variant='outlined' type="submit">
-              Save
-            </Button>
-          </Grid>
-        </Grid>
+    
       </form>
+
     </React.Fragment>
+    </Box>
+    </>
   );
 }

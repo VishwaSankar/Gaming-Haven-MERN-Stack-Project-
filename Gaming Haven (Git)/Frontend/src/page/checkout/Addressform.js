@@ -7,7 +7,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import newRequest from '../../utils/newRequest';
 import { useLocation } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Box, Button, Divider } from '@mui/material';
 
 export default function AddressForm() {
   const location = useLocation();
@@ -75,7 +75,14 @@ export default function AddressForm() {
         state: e.target.state.value,
         zipCode: parseInt(e.target.zipCode.value), // Assuming zipCode is a number
         country: e.target.country.value,
+      },
+      paymentDetails: {
+        cardName:e.target.cardName.value,
+        cardNumber: e.target.cardNumber.value,
+        expirationDate:e.target.expDate.value,
+        cvv:e.target.cvv.value,
       }}
+      
 
     // Call the mutation function to send data to the server
     mutation.mutate(formData);
@@ -83,10 +90,15 @@ export default function AddressForm() {
   
 
   return (
+    <>
+    <Box>
     <React.Fragment>
-      <Typography variant="h6" gutterBottom>
+
+    <Typography variant="h5" fontFamily="monospace" gutterBottom textAlign="center" paddingTop="30px" paddingBottom="20px">
         Shipping address
+        {/* <Divider color="gray"  variant="middle"/> */}
       </Typography>
+      
       <form onSubmit={handleship}>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
@@ -171,11 +183,68 @@ export default function AddressForm() {
             label="Use this address for payment details"
           />
         </Grid> */}
-          <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button variant='outlined' type="submit">Save</Button>
-          </Grid>
+  </Grid>
+       
+        <Typography variant="h5" fontFamily="monospace" gutterBottom textAlign="center" paddingTop="50px">
+        Payment method
+      </Typography>    
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
+          <TextField
+            required
+            id="cardName"
+            name="cardName"
+            label="Name on card"
+            fullWidth
+            autoComplete="cc-name"
+            variant="standard"
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <TextField
+            required
+            id="cardNumber"
+            name="cardNumber"
+            label="Card number"
+            fullWidth
+            autoComplete="cc-number"
+            variant="standard"
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <TextField
+            required
+            id="expDate"
+            name="expDate"
+            label="Expiry date"
+            fullWidth
+            autoComplete="cc-exp"
+            variant="standard"
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <TextField
+            required
+            name="cvv"
+            id="cvv"
+            label="CVV"
+            helperText="Last three digits on signature strip"
+            fullWidth
+            autoComplete="cc-csc"
+            variant="standard"
+          />
+        </Grid><br></br>
+        <br></br>
+
       </Grid>
-      </form>
+      <Grid paddingTop="30px" item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button variant='outlined' color='error' type="submit">Click me to save </Button>
+          </Grid>
+          
+  </form>
+
     </React.Fragment>
+    </Box>
+    </>
   );
 }}

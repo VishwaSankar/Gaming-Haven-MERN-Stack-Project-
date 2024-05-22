@@ -131,7 +131,7 @@ export const Navbar = () => {
               </Badge>
             </Link>
           </Tooltip>
-          <Tooltip title="Your library">
+          {/* <Tooltip title="Your library">
             <Badge badgeContent={4} color="error" sx={{ cursor: "pointer" }}>
               <Link to="/library">
                 <SportsEsportsRoundedIcon
@@ -145,7 +145,7 @@ export const Navbar = () => {
                 />
               </Link>
             </Badge>
-          </Tooltip>
+          </Tooltip> */}
           <Tooltip title="Favourites">
             <Link to="/fav">
               <Badge badgeContent={favData?.length} color="error" sx={{ cursor: "pointer" }}>

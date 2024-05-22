@@ -24,6 +24,7 @@ import { useParams, useLocation, Link } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useQueryClient } from '@tanstack/react-query'
 import newRequest from "../../utils/newRequest";
+import Review from "../review/review";
 
 export const Centre1 = () => {
   const [open, setOpen] = React.useState(false);
@@ -640,7 +641,7 @@ export const Centre1 = () => {
             Gamer Reviews
           </Typography>
 
-          
+          <Review gamename={data.name}/>
 
 
 

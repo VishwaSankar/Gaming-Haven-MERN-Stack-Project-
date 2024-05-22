@@ -1,11 +1,6 @@
-import Typography from "@mui/material/Typography";
 import { Navbar } from "./navbar";
 import { Box, Container, CssBaseline, Stack, ThemeProvider, createTheme, useMediaQuery } from "@mui/material";
-import NestedList from "./left";
-import { Centre } from "./centre";
-import { Right } from "./right";
-import Footer from "./footer";
-import StickyFooter from "./footer";
+
 import { Store } from "./store";
 import { Gamecontent } from "./page/gamecontent/Gamecontent";
 import {
@@ -13,16 +8,14 @@ import {
   Outlet,
   RouterProvider,
 } from "react-router-dom";
-import {Layout} from './layot.js';
-import CardsRow from "./onsale";
-import YourComponent from "./page/gamecontent/api.js";
+
 import React from "react";
 import SignIn from "./page/gamecontent/login/login.js";
 import Checkout from "./page/checkout/Checkout.js";
 import Cart from "./page/cart/cart.js";
 import Genre from "./page/Genre/Genre.js";
 import "./App.css";
-import { Favourites } from "./favourites.js";
+
 import { Library } from "./Library.js";
 import Dashboard from "./page/admin dashboard/dashboard.js";
 import About from "./page/about.js";
@@ -30,28 +23,16 @@ import Signup from "./page/gamecontent/login/signup.js";
 import { Logout } from "@mui/icons-material";
 import Profile from "./page/admin dashboard/profile.js";
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
+
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
 import FavMain from "./favlayout.js";
 import Checkoutorder from "./page/checkout/orderCheckout.js";
-// function App(){
-//   return (<>
-  
-//     <BrowserRouter>
-//     <Routes>
-//         <Route path="/" element={<Store />}>
-//           <Route index element={<Store />} />
-//             <Route path="gamecontent" element={<Gamecontent />} />
-
-//         </Route>
-//     </Routes>
-//     </BrowserRouter>
-//     </>);
-// }
+import { DbLibrary } from "./dblib.js";
+import ErrorBoundaryWithServerError from "./servererror/servererror.js";
+import Success from "./page/payment/success.js";
+import Pay from "./page/payment/pay.js";
 
 
 function App() {
@@ -69,11 +50,13 @@ function App() {
   );
       const Root=()=>{
         return(
-          <>
+          <>  
+          <ErrorBoundaryWithServerError>
         <QueryClientProvider client={queryClient}>
         <Navbar/>
         <Outlet/>
         </QueryClientProvider>
+        </ErrorBoundaryWithServerError>
         </>
         )
         
@@ -136,6 +119,10 @@ function App() {
         element:<Library/>
        },
        {
+        path:'/dblibrary',
+        element:<DbLibrary/>
+       },
+       {
         path:'/dashboard',
         element:<Dashboard/>
        },
@@ -146,7 +133,15 @@ function App() {
        {
         path:'/profile',
         element:<Profile/>
-       }
+       },
+       {
+        path:"/success",
+        element: <Success/>
+      },
+      {
+        path:"/pay",
+        element: <Pay/>
+      },
        ],
     },
   ]);
@@ -159,13 +154,7 @@ function App() {
      <ThemeProvider theme={theme}>
      <CssBaseline />
      <RouterProvider router={router} />
-      {/* <Box > */}
-      {/* <SignIn/> */}
-      {/* <Store/> */}
-      {/* <Gamecontent/> */}
-      {/* <Layout />  */}
-      {/* <YourComponent/> */}
-      {/* </Box> */}
+     
       </ThemeProvider>
       
     </>

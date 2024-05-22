@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const newRequest = axios.create({
-    baseURL:"https://gaming-haven-api.vercel.app", withCredentials:true
+    baseURL:"http://localhost:5000/", withCredentials:true
 })
 
 export default newRequest
