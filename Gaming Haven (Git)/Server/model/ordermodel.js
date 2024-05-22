@@ -31,10 +31,20 @@ const ordersSchema = new Schema({
       cardNumber: String,
       expirationDate: String,
       cvv: String,
+      payment_intent:String
       
+    },
+    payment_intent:{
+      type:String,
+      require:false
+    },
+    payment_status:{
+      type:Boolean,
+      require:false
     },
     success:{
       type:Boolean,
+    
       
     }
 
