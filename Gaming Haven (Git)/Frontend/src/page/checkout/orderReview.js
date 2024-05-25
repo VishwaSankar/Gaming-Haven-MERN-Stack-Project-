@@ -14,9 +14,7 @@ import { Divider } from '@mui/material';
 
 export default function Review(props) {
   
-
-
-  const { isLoading, error, data } = useQuery({
+  const { isLoading: cartLoading, error: cartError, data: cartData } = useQuery({
     queryKey: ["cart"],
     queryFn: async () => {
       try {
@@ -27,7 +25,21 @@ export default function Review(props) {
       }
     },
   });
-  const queryClient=useQueryClient()
+
+  // Fetch order details
+  const { isLoading: orderLoading, error: orderError, data: orderData } = useQuery({
+    queryKey: ["order"],
+    queryFn: async () => {
+      try {
+        const response = await newRequest.get("/order/userorder");
+        return response.data;
+      } catch (error) {
+        throw new Error("Error fetching order data");
+      }
+    },
+  });
+  const lastOrderId = orderData?.length > 0 ? orderData[orderData.length - 1]._id : null;
+  console.log("orderid" +lastOrderId);
  
     
   
@@ -35,13 +47,13 @@ export default function Review(props) {
 
 
 
-  const total = data.reduce((accumulator, order) => accumulator + parseFloat(order.price), 0);
+  const total =  cartData.reduce((accumulator, order) => accumulator + parseFloat(order.price), 0);
   return (
     <React.Fragment>
       <Typography fontSize="35px" fontFamily="monospace" gutterBottom>
         Order summary
       </Typography>
-      {data.map((order, index) => (
+      { cartData.map((order, index) => (
         
         <List disablePadding key={index}>
           <ListItem key={order.name} sx={{ py: 1, px: 0 }}>
@@ -57,7 +69,7 @@ export default function Review(props) {
           <ListItemText primary="Total amount to be paid" secondary="including GST"/>
          <Typography fontFamily="monospace" fontSize="20px">Rs. {total} /-</Typography> 
         </ListItem>
-        <Link to={'/pay'} state={{from:'checkout-review', amount:total }}>
+        <Link to={'/pay'} state={{from:'checkout-review', amount:total, orderId:lastOrderId}}>
               <button>Make Payment</button>
               </Link>
       
