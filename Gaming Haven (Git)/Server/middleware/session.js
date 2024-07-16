@@ -10,7 +10,9 @@ const sessionConfig = {
     collectionName: 'sessions',
   }),
   cookie: {
+    secure : true,
     httpOnly: true,
+    SameSite: "None",
     maxAge: 1000 * 60 * 60 * 24 * 7, // one week
   },
 };
